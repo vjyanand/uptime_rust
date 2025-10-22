@@ -123,6 +123,7 @@ pub const URL_JSON: &str = r##"
       "url":"http://webkit.iavian.net:8080/check",
       "rtimeout":5000,
       "threshold":10,
+      "empty":true,
       "check_interval":120,
       "dnd":true
     },
