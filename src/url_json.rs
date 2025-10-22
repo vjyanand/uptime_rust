@@ -120,6 +120,13 @@ pub const URL_JSON: &str = r##"
       "dnd":true
     },
     {
+      "url":"http://webkit.iavian.net:8080/check",
+      "rtimeout":5000,
+      "threshold":10,
+      "check_interval":120,
+      "dnd":true
+    },
+    {
       "url":"https://iavian-upinger.fly.dev/health/article",
       "rtimeout":5000,
       "threshold":10,
