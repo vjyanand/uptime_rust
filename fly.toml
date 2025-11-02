@@ -1,3 +1,8 @@
+# fly.toml app configuration file generated for iavian-uptime-check on 2025-11-02T19:16:33+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
 app = 'iavian-uptime-check'
 primary_region = 'iad'
 
