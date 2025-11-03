@@ -114,6 +114,14 @@ pub const URL_JSON: &str = r##"
       "empty":true
     },
     {
+      "url":"https://webkit.extruct.iavian.net/check",
+      "rtimeout":5000,
+      "threshold":10,
+      "check_interval":120,
+      "dnd":true,
+      "empty":true
+    },
+    {
       "url":"https://img.thereport.be/img?w=100&url=https://media.washtimes.com/media/image/2020/06/14/virus_outbreak_new_york_story_59683.jpg",
       "rtimeout":5000,
       "threshold":10,
