@@ -114,7 +114,7 @@ pub const URL_JSON: &str = r##"
       "empty":true
     },
     {
-      "url":"https://webkit.extruct.iavian.net/check",
+      "url":"https://webkit.extruct.iavian.net/webkit/check",
       "rtimeout":5000,
       "threshold":10,
       "check_interval":120,
