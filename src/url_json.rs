@@ -57,13 +57,6 @@ pub const URL_JSON: &str = r##"
       "dnd":true
     },
     {
-      "url":"https://thereport.be/apnsstats",
-      "rtimeout":5000,
-      "threshold":5,
-      "check_interval":1200,
-      "dnd":true
-    },
-    {
       "url":"https://play.google.com/store/apps/details?id=us.dreport.free",
       "rtimeout":5000,
       "threshold":5,
