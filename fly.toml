@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for iavian-uptime-check on 2025-11-02T19:16:33+05:30
+# fly.toml app configuration file generated for iavian-uptime-check-rust on 2025-12-02T15:05:16+05:30
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'iavian-uptime-check'
+app = 'iavian-uptime-check-rust'
 primary_region = 'iad'
 
 [build]
