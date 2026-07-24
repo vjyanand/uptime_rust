@@ -4,7 +4,7 @@ use chrono::Utc;
 use futures::future::join_all;
 use log::{debug, error, info, warn};
 use memcache::MemcacheError;
-use rand::{Rng, rng, seq::SliceRandom};
+use rand::{RngExt, rng, seq::SliceRandom};
 use reqwest::Response;
 use serde::{Deserialize, Serialize};
 use serde_json::Error;
@@ -24,6 +24,12 @@ pub struct Entry {
     threshold: u64,
     rtimeout: u64,
     check_interval: Option<u64>,
+    #[serde(default = "default_true")]
+    enabled: bool,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -36,11 +42,11 @@ pub async fn check() {
         warn!("Failed to get entries");
         return;
     };
-    let server = env::var("MEMCACHE_SERVER").unwrap_or_else(|_| "memcache://localhost:11211?connect_timeout=4&timeout=4&tcp_nodelay=true".to_owned()); 
+    let server = env::var("MEMCACHE_SERVER").unwrap_or_else(|_| {
+        "memcache://localhost:11211?connect_timeout=4&timeout=4&tcp_nodelay=true".to_owned()
+    });
     info!("Connecting to memcache {server}");
-    let client = match memcache::connect(
-        server,
-    ) {
+    let client = match memcache::connect(server) {
         Ok(client) => client,
         Err(e) => {
             let error_msg = format!("memcache is down: {e}");
