@@ -203,6 +203,9 @@ pub fn get_entries() -> Option<Entries> {
     let Ok(mut result): Result<Entries, Error> = serde_json::from_str(URL_JSON) else {
         return None;
     };
+
+    result.domain.retain(|entry| entry.enabled);
+
     let mut rng = rng();
     result.domain.shuffle(&mut rng);
     Some(result)
