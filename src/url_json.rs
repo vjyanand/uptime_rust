@@ -169,7 +169,7 @@ pub const URL_JSON: &str = r##"
       "rtimeout":5000,
       "threshold":10,
       "dnd":true,
-      "disabled":true,
+      "disabled":false,
       "empty":true
     },
     {
