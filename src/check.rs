@@ -24,12 +24,7 @@ pub struct Entry {
     threshold: u64,
     rtimeout: u64,
     check_interval: Option<u64>,
-    #[serde(default = "default_true")]
-    enabled: bool,
-}
-
-fn default_true() -> bool {
-    true
+    disabled: Option<bool>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -203,9 +198,9 @@ pub fn get_entries() -> Option<Entries> {
     let Ok(mut result): Result<Entries, Error> = serde_json::from_str(URL_JSON) else {
         return None;
     };
-
-    result.domain.retain(|entry| entry.enabled);
-
+    result
+        .domain
+        .retain(|entry| !entry.disabled.unwrap_or(false));
     let mut rng = rng();
     result.domain.shuffle(&mut rng);
     Some(result)
