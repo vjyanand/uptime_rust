@@ -19,7 +19,7 @@ RUN --mount=type=secret,id=PUSHOVER_TOKEN --mount=type=secret,id=PUSHOVER_USER \
 # syntax=docker/dockerfile:1
 FROM alpine:latest
 
-RUN apk add --update --no-cache --repository https://dl-3.alpinelinux.org/alpine/latest-stable/community --repository https://dl-3.alpinelinux.org/alpine/latest-stable/main libgcc memcached
+RUN apk add --update --no-cache --repository https://dl-3.alpinelinux.org/alpine/latest-stable/community --repository https://dl-3.alpinelinux.org/alpine/latest-stable/main libgcc libssl3 ca-certificates memcached
 
 WORKDIR /opt/uptime
 
