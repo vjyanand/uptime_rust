@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM alpine:latest
 
 RUN apk add --update --no-cache --repository https://dl-3.alpinelinux.org/alpine/latest-stable/community --repository https://dl-3.alpinelinux.org/alpine/latest-stable/main rust cargo openssl-dev
@@ -8,8 +9,14 @@ COPY ./Cargo.toml ./Cargo.toml
 
 ADD . ./
 
-RUN cargo build --release
+# Pushover credentials are compiled into the binary; pass them with
+# fly deploy --build-secret PUSHOVER_TOKEN=... --build-secret PUSHOVER_USER=...
+RUN --mount=type=secret,id=PUSHOVER_TOKEN --mount=type=secret,id=PUSHOVER_USER \
+    PUSHOVER_TOKEN="$(cat /run/secrets/PUSHOVER_TOKEN)" \
+    PUSHOVER_USER="$(cat /run/secrets/PUSHOVER_USER)" \
+    cargo build --release
 
+# syntax=docker/dockerfile:1
 FROM alpine:latest
 
 RUN apk add --update --no-cache --repository https://dl-3.alpinelinux.org/alpine/latest-stable/community --repository https://dl-3.alpinelinux.org/alpine/latest-stable/main libgcc memcached

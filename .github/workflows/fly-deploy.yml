@@ -8,10 +8,16 @@ jobs:
     name: Deploy app
     runs-on: ubuntu-latest
     concurrency: deploy-group    # optional: ensure only one action runs at a time
+    env:
+      PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_TOKEN }}
+      PUSHOVER_USER: ${{ secrets.PUSHOVER_USER }}
     steps:
       - uses: actions/checkout@v4
       - run: cargo test --locked
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - run: >-
+          flyctl deploy --remote-only
+          --build-secret PUSHOVER_TOKEN="$PUSHOVER_TOKEN"
+          --build-secret PUSHOVER_USER="$PUSHOVER_USER"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

@@ -1,4 +1,4 @@
-use std::{env, time::Duration};
+use std::time::Duration;
 
 use log::warn;
 use reqwest::Client;
@@ -6,6 +6,12 @@ use reqwest::Client;
 pub(crate) trait Notifier {
     async fn notify(&self, status: &str, url: Option<&str>, sound: Option<&str>) -> Option<String>;
 }
+
+// Pushover credentials are baked in at build time; the build fails if they are unset or empty
+const PUSHOVER_TOKEN: &str = env!("PUSHOVER_TOKEN");
+const PUSHOVER_USER: &str = env!("PUSHOVER_USER");
+const _: () = assert!(!PUSHOVER_TOKEN.is_empty(), "PUSHOVER_TOKEN must not be empty");
+const _: () = assert!(!PUSHOVER_USER.is_empty(), "PUSHOVER_USER must not be empty");
 
 pub(crate) struct Pushover {
     pub(crate) token: String,
@@ -15,19 +21,14 @@ pub(crate) struct Pushover {
 impl Default for Pushover {
     fn default() -> Self {
         Self {
-            token: env::var("PUSHOVER_TOKEN").unwrap_or_default(),
-            user: env::var("PUSHOVER_USER").unwrap_or_default(),
+            token: String::from(PUSHOVER_TOKEN),
+            user: String::from(PUSHOVER_USER),
         }
     }
 }
 
 impl Notifier for Pushover {
     async fn notify(&self, status: &str, url: Option<&str>, sound: Option<&str>) -> Option<String> {
-        if self.token.is_empty() || self.user.is_empty() {
-            warn!("PUSHOVER_TOKEN or PUSHOVER_USER not set, skipping notification: {status}");
-            return None;
-        }
-
         let mut params = vec![
             ("message", status.to_owned()),
             ("token", self.token.clone()),
