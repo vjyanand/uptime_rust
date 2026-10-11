@@ -1,4 +1,4 @@
-use std::time::Duration;
+use std::{env, time::Duration};
 
 use log::warn;
 use reqwest::Client;
@@ -15,14 +15,19 @@ pub(crate) struct Pushover {
 impl Default for Pushover {
     fn default() -> Self {
         Self {
-            token: String::from("a7mC1bFNLhGd5GGcdaNQxrefuaBxwo"),
-            user: String::from("7hwJ5U6uG0dUAS1V9rk9DPDZMjqow1"),
+            token: env::var("PUSHOVER_TOKEN").unwrap_or_default(),
+            user: env::var("PUSHOVER_USER").unwrap_or_default(),
         }
     }
 }
 
 impl Notifier for Pushover {
     async fn notify(&self, status: &str, url: Option<&str>, sound: Option<&str>) -> Option<String> {
+        if self.token.is_empty() || self.user.is_empty() {
+            warn!("PUSHOVER_TOKEN or PUSHOVER_USER not set, skipping notification: {status}");
+            return None;
+        }
+
         let mut params = vec![
             ("message", status.to_owned()),
             ("token", self.token.clone()),
@@ -37,7 +42,7 @@ impl Notifier for Pushover {
         params.push(("sound", sound.unwrap_or("none").to_owned()));
 
         let Ok(client) = Client::builder().timeout(Duration::from_secs(10)).build() else {
-            warn!("Failed to intilize for pushover");
+            warn!("Failed to initialize for pushover");
             return None;
         };
 

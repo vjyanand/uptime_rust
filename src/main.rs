@@ -34,6 +34,12 @@ async fn notifo_request(
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
+    for var in ["PUSHOVER_TOKEN", "PUSHOVER_USER"] {
+        if env::var(var).is_ok_and(|value| !value.is_empty()) {
+            continue;
+        }
+        return Err(std::io::Error::other(format!("{var} must be set")));
+    }
     Pushover::default()
         .notify("starting uptime check", None, Some("spacealarm"))
         .await;

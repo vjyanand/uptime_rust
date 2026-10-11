@@ -7,6 +7,9 @@ use serde::{Deserialize, Serialize};
 pub struct Backoff {
     date: DateTime<Utc>,
     time: u64,
+    // Whether a "down" alert has been sent for this outage
+    #[serde(default)]
+    notified: bool,
 }
 
 impl Backoff {
@@ -14,11 +17,20 @@ impl Backoff {
         Backoff {
             date: Utc::now(),
             time,
+            notified: false,
         }
     }
 
     pub fn get_date(&self) -> DateTime<Utc> {
         self.date
+    }
+
+    pub fn is_notified(&self) -> bool {
+        self.notified
+    }
+
+    pub fn mark_notified(&mut self) {
+        self.notified = true;
     }
 
     pub fn increment_by_factor(&mut self) {
