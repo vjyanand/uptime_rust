@@ -78,20 +78,6 @@ pub const URL_JSON: &str = r##"
       "dnd":true
     },
     {
-      "url":"https://play.google.com/store/apps/details?id=instant.breaking.news.free",
-      "rtimeout":5000,
-      "threshold":10,
-      "check_interval":600,
-      "dnd":true
-    },
-    {
-      "url":"https://play.google.com/store/apps/details?id=the.report.us.free",
-      "rtimeout":5000,
-      "threshold":10,
-      "check_interval":600,
-      "dnd":true
-    },
-    {
       "url":"https://expander.iavian.net/?url=https://tiny.iavian.net/1",
       "rtimeout":5000,
       "threshold":10,
